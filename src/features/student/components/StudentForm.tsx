@@ -5,17 +5,39 @@ import { selectCityOption } from 'features/city/citySlice';
 import { Student } from 'models';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 export interface StudentFormProps {
     initialValues?: Student;
     onSubmit?: (formValues: Student) => void;
 }
 
+// todo khoi tao schema validate
+const schema = yup.object({
+    name: yup.string().required('please enter name'),
+    age: yup
+        .number()
+        .positive()
+        .integer()
+        .required('please enter age')
+        .typeError('please enter a valid number'),
+    gender: yup
+        .string()
+        .oneOf(['male', 'female'], 'please select either male or female')
+        .required('please select male or female '),
+    mark: yup
+        .number()
+        .required('please enter mark')
+        .typeError('please enter a valid number'),
+    city: yup.string().required('please select city '),
+});
+
 export function StudentForm({ initialValues, onSubmit }: StudentFormProps) {
     const { control, handleSubmit } = useForm<Student>({
         defaultValues: initialValues,
+        resolver: yupResolver(schema),
     });
-    console.log('value of form ', control);
     const cityOptions = useAppSelector(selectCityOption);
 
     const handleFormSubmit = (formValues: Student) => {

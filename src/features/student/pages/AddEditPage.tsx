@@ -70,14 +70,14 @@ export function AddEditPage() {
             <Typography variant="h4">
                 {studentId ? 'Edit page' : 'Add student page'}
             </Typography>
-            {/* {(Boolean(student) || !isEdit) && ( */}
-            <Box mt={3} className={classes.blockForm}>
-                <StudentForm
-                    initialValues={initialValues}
-                    onSubmit={handleStudentFormSubmit}
-                />
-            </Box>
-            {/* )} */}
+            {(Boolean(student) || !isEdit) && (
+                <Box mt={3} className={classes.blockForm}>
+                    <StudentForm
+                        initialValues={initialValues}
+                        onSubmit={handleStudentFormSubmit}
+                    />
+                </Box>
+            )}
         </Box>
     );
 }
